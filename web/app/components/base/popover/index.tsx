@@ -3,13 +3,14 @@ import { Fragment, cloneElement, useRef } from 'react'
 import cn from '@/utils/classnames'
 
 export type HtmlContentProps = {
+  open?: boolean
   onClose?: () => void
   onClick?: () => void
 }
 
 type IPopover = {
   className?: string
-  htmlContent: React.ReactNode<HtmlContentProps>
+  htmlContent: React.ReactNode
   popupClassName?: string
   trigger?: 'click' | 'hover'
   position?: 'bottom' | 'br' | 'bl'
@@ -90,7 +91,7 @@ export default function CustomPopover({
                 >
                   {({ close }) => (
                     <div
-                      className={cn('w-fit min-w-[130px] overflow-hidden rounded-lg bg-components-panel-bg shadow-lg ring-1 ring-black ring-opacity-5', popupClassName)}
+                      className={cn('w-fit min-w-[130px] overflow-hidden rounded-lg bg-components-panel-bg shadow-lg ring-1 ring-black/5', popupClassName)}
                       {...(trigger !== 'hover'
                         ? {}
                         : {
@@ -99,8 +100,9 @@ export default function CustomPopover({
                         })
                       }
                     >
-                      {cloneElement(htmlContent as React.ReactNode<HtmlContentProps>, {
-                        onClose: () => onMouseLeave(open),
+                      {cloneElement(htmlContent as React.ReactElement, {
+                        open,
+                        onClose: close,
                         ...(manualClose
                           ? {
                             onClick: close,

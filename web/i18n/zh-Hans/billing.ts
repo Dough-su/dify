@@ -16,7 +16,10 @@ const translation = {
   viewBilling: '管理账单及订阅',
   buyPermissionDeniedTip: '请联系企业管理员订阅',
   plansCommon: {
-    title: '为您的 AI 之旅提供动力的定价套餐',
+    title: {
+      plans: '套餐',
+      description: '选择最适合您团队需求的套餐。',
+    },
     freeTrialTipPrefix: '注册即可',
     freeTrialTip: '免费试用 200 个 OpenAI 消息额度',
     freeTrialTipSuffix: '。无需信用卡',
@@ -32,13 +35,14 @@ const translation = {
     year: '年',
     save: '节省',
     free: '免费',
-    annualBilling: '按年计费',
+    annualBilling: '按年计费节省 {{percent}}%',
     comparePlanAndFeatures: '对比套餐 & 功能特性',
     priceTip: '每个团队空间/',
     currentPlan: '当前计划',
     contractSales: '联系销售',
     contractOwner: '联系团队管理员',
     startForFree: '免费开始',
+    startBuilding: '开始构建',
     getStarted: '立即开始',
     contactSales: '联系销售',
     talkToSales: '联系销售',
@@ -54,6 +58,10 @@ const translation = {
     vectorSpaceTooltip: '采用高质量索引模式的文档会消耗知识数据存储资源。当知识数据存储达到限制时，将不会上传新文档。',
     documentsRequestQuota: '{{count,number}}/分钟 知识库请求频率限制',
     documentsRequestQuotaTooltip: '指每分钟内，一个空间在知识库中可执行的操作总数，包括数据集的创建、删除、更新，文档的上传、修改、归档，以及知识库查询等，用于评估知识库请求的性能。例如，Sandbox 用户在 1 分钟内连续执行 10 次命中测试，其工作区将在接下来的 1 分钟内无法继续执行以下操作：数据集的创建、删除、更新，文档的上传、修改等操作。',
+    apiRateLimit: 'API 请求频率限制',
+    apiRateLimitUnit: '{{count,number}} 次/天',
+    unlimitedApiRate: 'API 请求频率无限制',
+    apiRateLimitTooltip: 'API 请求频率限制涵盖所有通过 Dify API 发起的调用，例如文本生成、聊天对话、工作流执行和文档处理等。',
     documentProcessingPriority: '文档处理',
     documentProcessingPriorityUpgrade: '以更快的速度、更高的精度处理更多的数据。',
     priority: {
@@ -89,7 +97,7 @@ const translation = {
     messageRequest: {
       title: '{{count,number}} 条消息额度',
       titlePerMonth: '{{count,number}} 条消息额度/月',
-      tooltip: '为不同方案提供基于OpenAl模型的消息响应额度。',
+      tooltip: '消息额度旨在帮助您便捷地试用 Dify 中的各类 OpenAI 模型。不同模型会消耗不同额度。额度用尽后，您可以切换为使用自己的 OpenAI API 密钥。',
     },
     annotatedResponse: {
       title: '{{count,number}} 个标注回复数',
@@ -102,22 +110,22 @@ const translation = {
     sandbox: {
       name: 'Sandbox',
       for: '核心能力的免费试用',
-      description: '核心功能免费试用',
+      description: '免费试用核心功能。',
     },
     professional: {
       name: 'Professional',
       for: '适合独立开发者或小团队',
-      description: '对于独立开发者/小团队',
+      description: '适合准备构建生产级 AI 应用的独立开发者和小团队。',
     },
     team: {
       name: 'Team',
       for: '适合中等规模的团队',
-      description: '对于中型团队',
+      description: '适合需要协作和更高吞吐量的中等规模团队。',
     },
     community: {
       name: 'Community',
       for: '适用于个人用户、小型团队或非商业项目',
-      description: '适用于个人用户、小型团队或非商业项目',
+      description: '适用于开源爱好者、个人开发者以及非商业项目',
       price: '免费',
       btnText: '开始使用',
       includesTitle: '免费功能：',
@@ -130,7 +138,7 @@ const translation = {
     premium: {
       name: 'Premium',
       for: '对于中型组织和团队',
-      description: '对于中型组织和团队',
+      description: '适合需要部署灵活性和增强支持的中型组织和团队',
       price: '可扩展',
       priceTip: '基于云市场',
       btnText: '获得 Premium 版',
@@ -146,11 +154,11 @@ const translation = {
     enterprise: {
       name: 'Enterprise',
       for: '适合大人员规模的团队',
-      description: '对于需要组织范围内的安全性、合规性、可扩展性、控制和更高级功能的企业',
+      description: '适合需要组织级安全性、合规性、可扩展性、控制和定制解决方案的企业',
       price: '定制',
       priceTip: '仅按年计费',
       btnText: '联系销售',
-      includesTitle: 'Premium 版的所有功能，加上：',
+      includesTitle: '<highlight>Premium</highlight> 版的所有功能，加上：',
       features: [
         '企业级可扩展部署解决方案',
         '商业许可授权',
@@ -169,14 +177,18 @@ const translation = {
     fullSolution: '升级您的套餐以获得更多空间。',
   },
   apps: {
-    fullTipLine1: '升级您的套餐以',
-    fullTipLine2: '构建更多的程序。',
+    fullTip1: '升级以创建更多应用',
+    fullTip1des: '您已达到此计划上构建应用的限制',
+    fullTip2: '计划限制已达到',
+    fullTip2des: '推荐您清理不活跃的应用或者联系我们',
+    contactUs: '联系我们',
   },
   annotatedResponse: {
     fullTipLine1: '升级您的套餐以',
     fullTipLine2: '标注更多对话。',
     quotaTitle: '标注的配额',
   },
+  teamMembers: '团队成员',
 }
 
 export default translation

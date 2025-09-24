@@ -3,8 +3,8 @@ import uuid
 from contextlib import contextmanager
 from typing import Any
 
-import psycopg2.extras  # type: ignore
-import psycopg2.pool  # type: ignore
+import psycopg2.extras
+import psycopg2.pool
 from pydantic import BaseModel, model_validator
 
 from configs import dify_config
@@ -25,10 +25,11 @@ class OpenGaussConfig(BaseModel):
     database: str
     min_connection: int
     max_connection: int
+    enable_pq: bool = False  # Enable PQ acceleration
 
     @model_validator(mode="before")
     @classmethod
-    def validate_config(cls, values: dict) -> dict:
+    def validate_config(cls, values: dict):
         if not values["host"]:
             raise ValueError("config OPENGAUSS_HOST is required")
         if not values["port"]:
@@ -57,8 +58,13 @@ CREATE TABLE IF NOT EXISTS {table_name} (
 );
 """
 
+SQL_CREATE_INDEX_PQ = """
+CREATE INDEX IF NOT EXISTS embedding_{table_name}_pq_idx ON {table_name}
+USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64, enable_pq=on, pq_m={pq_m});
+"""
+
 SQL_CREATE_INDEX = """
-CREATE INDEX IF NOT EXISTS embedding_cosine_{table_name}_idx ON {table_name} 
+CREATE INDEX IF NOT EXISTS embedding_cosine_{table_name}_idx ON {table_name}
 USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 """
 
@@ -68,6 +74,7 @@ class OpenGauss(BaseVector):
         super().__init__(collection_name)
         self.pool = self._create_connection_pool(config)
         self.table_name = f"embedding_{collection_name}"
+        self.pq_enabled = config.enable_pq
 
     def get_type(self) -> str:
         return VectorType.OPENGAUSS
@@ -97,7 +104,26 @@ class OpenGauss(BaseVector):
     def create(self, texts: list[Document], embeddings: list[list[float]], **kwargs):
         dimension = len(embeddings[0])
         self._create_collection(dimension)
-        return self.add_texts(texts, embeddings)
+        self.add_texts(texts, embeddings)
+        self._create_index(dimension)
+
+    def _create_index(self, dimension: int):
+        index_cache_key = f"vector_index_{self._collection_name}"
+        lock_name = f"{index_cache_key}_lock"
+        with redis_client.lock(lock_name, timeout=60):
+            index_exist_cache_key = f"vector_index_{self._collection_name}"
+            if redis_client.get(index_exist_cache_key):
+                return
+
+            with self._get_cursor() as cur:
+                if dimension <= 2000:
+                    if self.pq_enabled:
+                        cur.execute(SQL_CREATE_INDEX_PQ.format(table_name=self.table_name, pq_m=int(dimension / 4)))
+                        cur.execute("SET hnsw_earlystop_threshold = 320")
+
+                    if not self.pq_enabled:
+                        cur.execute(SQL_CREATE_INDEX.format(table_name=self.table_name))
+            redis_client.set(index_exist_cache_key, 1, ex=3600)
 
     def add_texts(self, documents: list[Document], embeddings: list[list[float]], **kwargs):
         values = []
@@ -133,7 +159,7 @@ class OpenGauss(BaseVector):
                 docs.append(Document(page_content=record[1], metadata=record[0]))
         return docs
 
-    def delete_by_ids(self, ids: list[str]) -> None:
+    def delete_by_ids(self, ids: list[str]):
         # Avoiding crashes caused by performing delete operations on empty lists in certain scenarios
         # Scenario 1: extract a document fails, resulting in a table not being created.
         # Then clicking the retry button triggers a delete operation on an empty list.
@@ -142,7 +168,7 @@ class OpenGauss(BaseVector):
         with self._get_cursor() as cur:
             cur.execute(f"DELETE FROM {self.table_name} WHERE id IN %s", (tuple(ids),))
 
-    def delete_by_metadata_field(self, key: str, value: str) -> None:
+    def delete_by_metadata_field(self, key: str, value: str):
         with self._get_cursor() as cur:
             cur.execute(f"DELETE FROM {self.table_name} WHERE meta->>%s = %s", (key, value))
 
@@ -151,7 +177,6 @@ class OpenGauss(BaseVector):
         Search the nearest neighbors to a vector.
 
         :param query_vector: The input vector to search for similar items.
-        :param top_k: The number of nearest neighbors to return, default is 5.
         :return: List of Documents that are nearest to the query vector.
         """
         top_k = kwargs.get("top_k", 4)
@@ -169,7 +194,7 @@ class OpenGauss(BaseVector):
                 metadata, text, distance = record
                 score = 1 - distance
                 metadata["score"] = score
-                if score > score_threshold:
+                if score >= score_threshold:
                     docs.append(Document(page_content=text, metadata=metadata))
         return docs
 
@@ -197,7 +222,7 @@ class OpenGauss(BaseVector):
 
         return docs
 
-    def delete(self) -> None:
+    def delete(self):
         with self._get_cursor() as cur:
             cur.execute(f"DROP TABLE IF EXISTS {self.table_name}")
 
@@ -211,8 +236,6 @@ class OpenGauss(BaseVector):
 
             with self._get_cursor() as cur:
                 cur.execute(SQL_CREATE_TABLE.format(table_name=self.table_name, dimension=dimension))
-                if dimension <= 2000:
-                    cur.execute(SQL_CREATE_INDEX.format(table_name=self.table_name))
             redis_client.set(collection_exist_cache_key, 1, ex=3600)
 
 
@@ -236,5 +259,6 @@ class OpenGaussFactory(AbstractVectorFactory):
                 database=dify_config.OPENGAUSS_DATABASE or "dify",
                 min_connection=dify_config.OPENGAUSS_MIN_CONNECTION,
                 max_connection=dify_config.OPENGAUSS_MAX_CONNECTION,
+                enable_pq=dify_config.OPENGAUSS_ENABLE_PQ or False,
             ),
         )

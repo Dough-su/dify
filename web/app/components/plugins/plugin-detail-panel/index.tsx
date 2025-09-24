@@ -4,6 +4,7 @@ import type { FC } from 'react'
 import DetailHeader from './detail-header'
 import EndpointList from './endpoint-list'
 import ActionList from './action-list'
+import DatasourceActionList from './datasource-action-list'
 import ModelList from './model-list'
 import AgentStrategyList from './agent-strategy-list'
 import Drawer from '@/app/components/base/drawer'
@@ -38,7 +39,7 @@ const PluginDetailPanel: FC<Props> = ({
       footer={null}
       mask={false}
       positionCenter={false}
-      panelClassname={cn('mb-2 mr-2 mt-[64px] !w-[420px] !max-w-[420px] justify-start rounded-2xl border-[0.5px] border-components-panel-border !bg-components-panel-bg !p-0 shadow-xl')}
+      panelClassName={cn('mb-2 mr-2 mt-[64px] !w-[420px] !max-w-[420px] justify-start rounded-2xl border-[0.5px] border-components-panel-border !bg-components-panel-bg !p-0 shadow-xl')}
     >
       {detail && (
         <>
@@ -52,6 +53,7 @@ const PluginDetailPanel: FC<Props> = ({
             {!!detail.declaration.agent_strategy && <AgentStrategyList detail={detail} />}
             {!!detail.declaration.endpoint && <EndpointList detail={detail} />}
             {!!detail.declaration.model && <ModelList detail={detail} />}
+            {!!detail.declaration.datasource && <DatasourceActionList detail={detail} />}
           </div>
         </>
       )}

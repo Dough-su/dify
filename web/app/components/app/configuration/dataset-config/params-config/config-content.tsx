@@ -25,6 +25,7 @@ import { useSelectedDatasetsMode } from '@/app/components/workflow/nodes/knowled
 import Switch from '@/app/components/base/switch'
 import Toast from '@/app/components/base/toast'
 import Divider from '@/app/components/base/divider'
+import { noop } from 'lodash-es'
 
 type Props = {
   datasetConfigs: DatasetConfigs
@@ -41,8 +42,8 @@ const ConfigContent: FC<Props> = ({
   onChange,
   isInWorkflow,
   singleRetrievalModelConfig: singleRetrievalConfig = {} as ModelConfig,
-  onSingleRetrievalModelChange = () => { },
-  onSingleRetrievalModelParamsChange = () => { },
+  onSingleRetrievalModelChange = noop,
+  onSingleRetrievalModelParamsChange = noop,
   selectedDatasets = [],
 }) => {
   const { t } = useTranslation()
@@ -174,7 +175,6 @@ const ConfigContent: FC<Props> = ({
       ...datasetConfigs,
       reranking_enable: enable,
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRerankModel, datasetConfigs, onChange])
 
   return (
@@ -367,8 +367,8 @@ const ConfigContent: FC<Props> = ({
             provider={model?.provider}
             completionParams={model?.completion_params}
             modelId={model?.name}
-            setModel={onSingleRetrievalModelChange as any}
-            onCompletionParamsChange={onSingleRetrievalModelParamsChange as any}
+            setModel={onSingleRetrievalModelChange}
+            onCompletionParamsChange={onSingleRetrievalModelParamsChange}
             hideDebugWithMultipleModel
             debugWithMultipleModel={false}
           />

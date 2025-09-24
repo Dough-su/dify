@@ -1,9 +1,10 @@
 import path from 'node:path'
 import { access, appendFile, mkdir, open, readdir, rm, writeFile } from 'node:fs/promises'
+import { fileURLToPath } from 'node:url'
 import { parseXml } from '@rgrove/parse-xml'
 import { camelCase, template } from 'lodash-es'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const generateDir = async (currentPath) => {
   try {
@@ -65,7 +66,7 @@ const Icon = (
     ref,
     ...props
   }: React.SVGProps<SVGSVGElement> & {
-    ref?: React.RefObject<React.MutableRefObject<HTMLOrSVGElement>>;
+    ref?: React.RefObject<React.RefObject<HTMLOrSVGElement>>;
   },
 ) => <IconBase {...props} ref={ref} data={data as IconData} />
 
@@ -74,7 +75,7 @@ Icon.displayName = '<%= svgName %>'
 export default Icon
 `.trim())
 
-  await writeFile(path.resolve(currentPath, `${fileName}.json`), JSON.stringify(svgData, '', '\t'))
+  await writeFile(path.resolve(currentPath, `${fileName}.json`), `${JSON.stringify(svgData, '', '\t')}\n`)
   await writeFile(path.resolve(currentPath, `${fileName}.tsx`), `${componentRender({ svgName: fileName })}\n`)
 
   const indexingRender = template(`
@@ -105,7 +106,7 @@ const generateImageComponent = async (entry, pathList) => {
 }
 `.trim())
 
-  await writeFile(path.resolve(currentPath, `${fileName}.module.css`), `${componentCSSRender({ assetPath: path.join('~@/app/components/base/icons/assets', ...pathList.slice(2), entry) })}\n`)
+  await writeFile(path.resolve(currentPath, `${fileName}.module.css`), `${componentCSSRender({ assetPath: path.posix.join('~@/app/components/base/icons/assets', ...pathList.slice(2), entry) })}\n`)
 
   const componentRender = template(`
 // GENERATE BY script

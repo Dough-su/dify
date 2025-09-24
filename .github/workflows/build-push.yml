@@ -6,8 +6,11 @@ on:
       - "main"
       - "deploy/dev"
       - "deploy/enterprise"
-  release:
-    types: [published]
+      - "build/**"
+      - "release/e-*"
+      - "hotfix/**"
+    tags:
+      - "*"
 
 concurrency:
   group: build-push-${{ github.head_ref || github.run_id }}

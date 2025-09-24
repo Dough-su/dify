@@ -1,11 +1,12 @@
 'use client'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import {
   FloatingPortal,
   autoUpdate,
   flip,
   offset,
   shift,
+  size,
   useDismiss,
   useFloating,
   useFocus,
@@ -27,20 +28,27 @@ export type PortalToFollowElemOptions = {
   open?: boolean
   offset?: number | OffsetOptions
   onOpenChange?: (open: boolean) => void
+  triggerPopupSameWidth?: boolean
 }
 
 export function usePortalToFollowElem({
   placement = 'bottom',
-  open,
+  open: controlledOpen,
   offset: offsetValue = 0,
   onOpenChange: setControlledOpen,
+  triggerPopupSameWidth,
 }: PortalToFollowElemOptions = {}) {
-  const setOpen = setControlledOpen
+  const [localOpen, setLocalOpen] = useState(false)
+  const open = controlledOpen ?? localOpen
+  const handleOpenChange = useCallback((newOpen: boolean) => {
+    setLocalOpen(newOpen)
+    setControlledOpen?.(newOpen)
+  }, [setControlledOpen, setLocalOpen])
 
   const data = useFloating({
     placement,
     open,
-    onOpenChange: setOpen,
+    onOpenChange: handleOpenChange,
     whileElementsMounted: autoUpdate,
     middleware: [
       offset(offsetValue),
@@ -50,6 +58,12 @@ export function usePortalToFollowElem({
         padding: 5,
       }),
       shift({ padding: 5 }),
+      size({
+        apply({ rects, elements }) {
+          if (triggerPopupSameWidth)
+            elements.floating.style.width = `${rects.reference.width}px`
+        },
+      }),
     ],
   })
 
@@ -57,10 +71,10 @@ export function usePortalToFollowElem({
 
   const hover = useHover(context, {
     move: false,
-    enabled: open == null,
+    enabled: controlledOpen === undefined,
   })
   const focus = useFocus(context, {
-    enabled: open == null,
+    enabled: controlledOpen === undefined,
   })
   const dismiss = useDismiss(context)
   const role = useRole(context, { role: 'tooltip' })
@@ -70,11 +84,11 @@ export function usePortalToFollowElem({
   return React.useMemo(
     () => ({
       open,
-      setOpen,
+      setOpen: handleOpenChange,
       ...interactions,
       ...data,
     }),
-    [open, setOpen, interactions, data],
+    [open, handleOpenChange, interactions, data],
   )
 }
 
@@ -126,7 +140,7 @@ export const PortalToFollowElemTrigger = (
         ...props,
         ...children.props,
         'data-state': context.open ? 'open' : 'closed',
-      }),
+      } as React.HTMLProps<HTMLElement>),
     )
   }
 
@@ -168,6 +182,7 @@ export const PortalToFollowElemContent = (
         style={{
           ...context.floatingStyles,
           ...style,
+          visibility: context.middlewareData.hide?.referenceHidden ? 'hidden' : 'visible',
         }}
         {...context.getFloatingProps(props)}
       />

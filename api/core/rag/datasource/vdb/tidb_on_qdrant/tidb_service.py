@@ -1,5 +1,6 @@
 import time
 import uuid
+from collections.abc import Sequence
 
 import requests
 from requests.auth import HTTPDigestAuth
@@ -22,7 +23,6 @@ class TidbService:
         :param iam_url: The URL of the TiDB Cloud IAM API (required).
         :param public_key: The public key for the API (required).
         :param private_key: The private key for the API (required).
-        :param display_name: The user-friendly display name of the cluster (required).
         :param region: The region where the cluster will be created (required).
 
         :return: The response from the API.
@@ -140,7 +140,7 @@ class TidbService:
 
     @staticmethod
     def batch_update_tidb_serverless_cluster_status(
-        tidb_serverless_list: list[TidbAuthBinding],
+        tidb_serverless_list: Sequence[TidbAuthBinding],
         project_id: str,
         api_url: str,
         iam_url: str,
@@ -149,13 +149,12 @@ class TidbService:
     ):
         """
         Update the status of a new TiDB Serverless cluster.
+        :param tidb_serverless_list: The TiDB serverless list (required).
         :param project_id: The project ID of the TiDB Cloud project (required).
         :param api_url: The URL of the TiDB Cloud API (required).
         :param iam_url: The URL of the TiDB Cloud IAM API (required).
         :param public_key: The public key for the API (required).
         :param private_key: The private key for the API (required).
-        :param display_name: The user-friendly display name of the cluster (required).
-        :param region: The region where the cluster will be created (required).
 
         :return: The response from the API.
         """
@@ -186,12 +185,12 @@ class TidbService:
     ) -> list[dict]:
         """
         Creates a new TiDB Serverless cluster.
+        :param batch_size: The batch size (required).
         :param project_id: The project ID of the TiDB Cloud project (required).
         :param api_url: The URL of the TiDB Cloud API (required).
         :param iam_url: The URL of the TiDB Cloud IAM API (required).
         :param public_key: The public key for the API (required).
         :param private_key: The private key for the API (required).
-        :param display_name: The user-friendly display name of the cluster (required).
         :param region: The region where the cluster will be created (required).
 
         :return: The response from the API.
@@ -247,4 +246,4 @@ class TidbService:
             return cluster_infos
         else:
             response.raise_for_status()
-            return []  # FIXME for mypy, This line will not be reached as raise_for_status() will raise an exception
+            return []

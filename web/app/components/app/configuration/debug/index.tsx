@@ -34,7 +34,7 @@ import { RefreshCcw01 } from '@/app/components/base/icons/src/vender/line/arrows
 import TooltipPlus from '@/app/components/base/tooltip'
 import ActionButton, { ActionButtonState } from '@/app/components/base/action-button'
 import type { ModelConfig as BackendModelConfig, VisionFile, VisionSettings } from '@/types/app'
-import { promptVariablesToUserInputsForm } from '@/utils/model-config'
+import { formatBooleanInputs, promptVariablesToUserInputsForm } from '@/utils/model-config'
 import TextGeneration from '@/app/components/app/text-generate/item'
 import { IS_CE_EDITION } from '@/config'
 import type { Inputs } from '@/models/debug'
@@ -47,6 +47,7 @@ import AgentLogModal from '@/app/components/base/agent-log-modal'
 import PromptLogModal from '@/app/components/base/prompt-log-modal'
 import { useStore as useAppStore } from '@/app/components/app/store'
 import { useFeatures, useFeaturesStore } from '@/app/components/base/features/hooks'
+import { noop } from 'lodash-es'
 
 type IDebug = {
   isAPIKeySet: boolean
@@ -155,12 +156,11 @@ const Debug: FC<IDebug> = ({
     }
     let hasEmptyInput = ''
     const requiredVars = modelConfig.configs.prompt_variables.filter(({ key, name, required, type }) => {
-      if (type !== 'string' && type !== 'paragraph' && type !== 'select')
+      if (type !== 'string' && type !== 'paragraph' && type !== 'select' && type !== 'number')
         return false
       const res = (!key || !key.trim()) || (!name || !name.trim()) || (required || required === undefined || required === null)
       return res
     }) // compatible with old version
-    // debugger
     requiredVars.forEach(({ key, name }) => {
       if (hasEmptyInput)
         return
@@ -259,7 +259,7 @@ const Debug: FC<IDebug> = ({
     }
 
     const data: Record<string, any> = {
-      inputs,
+      inputs: formatBooleanInputs(modelConfig.configs.prompt_variables, inputs),
       model_config: postModelConfig,
     }
 
@@ -515,7 +515,7 @@ const Debug: FC<IDebug> = ({
                         isInstalledApp={false}
                         messageId={messageId}
                         isError={false}
-                        onRetry={() => { }}
+                        onRetry={noop}
                         siteInfo={null}
                       />
                     </div>

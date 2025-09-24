@@ -33,7 +33,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
 }) => {
   const { t } = useTranslation()
   const treeNodes = formatNodeList(list, t)
-  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(new Set())
+  const [collapsedNodes, setCollapsedNodes] = useState<Set<string>>(() => new Set())
   const [hoveredParallel, setHoveredParallel] = useState<string | null>(null)
 
   const toggleCollapse = (id: string) => {
@@ -86,6 +86,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
     setShowLoopingDetailFalse,
     loopResultList,
     loopResultDurationMap,
+    loopResultVariableMap,
     handleShowLoopResultList,
 
     agentOrToolLogItemStack,
@@ -144,6 +145,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
           </div>
           <NodePanel
             nodeInfo={node!}
+            allExecutions={list}
             onShowIterationDetail={handleShowIterationResultList}
             onShowLoopDetail={handleShowLoopResultList}
             onShowRetryDetail={handleShowRetryResultList}
@@ -172,6 +174,7 @@ const TracingPanel: FC<TracingPanelProps> = ({
         setShowLoopingDetailFalse={setShowLoopingDetailFalse}
         loopResultList={loopResultList}
         loopResultDurationMap={loopResultDurationMap}
+        loopResultVariableMap={loopResultVariableMap}
 
         agentOrToolLogItemStack={agentOrToolLogItemStack}
         agentOrToolLogListMap={agentOrToolLogListMap}

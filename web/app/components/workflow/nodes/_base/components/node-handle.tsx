@@ -47,7 +47,7 @@ export const NodeTargetHandle = memo(({
   const { handleNodeAdd } = useNodesInteractions()
   const { getNodesReadOnly } = useNodesReadOnly()
   const connected = data._connectedTargetHandleIds?.includes(handleId)
-  const { availablePrevBlocks } = useAvailableBlocks(data.type, data.isInIteration, data.isInLoop)
+  const { availablePrevBlocks } = useAvailableBlocks(data.type, data.isInIteration || data.isInLoop)
   const isConnectable = !!availablePrevBlocks.length
 
   const handleOpenChange = useCallback((v: boolean) => {
@@ -129,7 +129,7 @@ export const NodeSourceHandle = memo(({
   const [open, setOpen] = useState(false)
   const { handleNodeAdd } = useNodesInteractions()
   const { getNodesReadOnly } = useNodesReadOnly()
-  const { availableNextBlocks } = useAvailableBlocks(data.type, data.isInIteration, data.isInLoop)
+  const { availableNextBlocks } = useAvailableBlocks(data.type, data.isInIteration || data.isInLoop)
   const isConnectable = !!availableNextBlocks.length
   const isChatMode = useIsChatMode()
   const { checkParallelLimit } = useWorkflow()
@@ -199,7 +199,7 @@ export const NodeSourceHandle = memo(({
             onSelect={handleSelect}
             asChild
             triggerClassName={open => `
-              hidden absolute top-0 left-0 pointer-events-none 
+              hidden absolute top-0 left-0 pointer-events-none
               ${nodeSelectorClassName}
               group-hover:!flex
               ${data.selected && '!flex'}

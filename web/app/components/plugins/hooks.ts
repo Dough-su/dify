@@ -5,7 +5,7 @@ import {
   tagKeys,
 } from './constants'
 
-type Tag = {
+export type Tag = {
   name: string
   label: string
 }
@@ -26,9 +26,16 @@ export const useTags = (translateFromOut?: TFunction) => {
     return acc
   }, {} as Record<string, Tag>)
 
+  const getTagLabel = (name: string) => {
+    if (!tagsMap[name])
+      return name
+    return tagsMap[name].label
+  }
+
   return {
     tags,
     tagsMap,
+    getTagLabel,
   }
 }
 
@@ -91,4 +98,18 @@ export const useSingleCategories = (translateFromOut?: TFunction) => {
     categories,
     categoriesMap,
   }
+}
+
+export const PLUGIN_PAGE_TABS_MAP = {
+  plugins: 'plugins',
+  marketplace: 'discover',
+}
+
+export const usePluginPageTabs = () => {
+  const { t } = useTranslation()
+  const tabs = [
+    { value: PLUGIN_PAGE_TABS_MAP.plugins, text: t('common.menus.plugins') },
+    { value: PLUGIN_PAGE_TABS_MAP.marketplace, text: t('common.menus.exploreMarketplace') },
+  ]
+  return tabs
 }
