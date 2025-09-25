@@ -8,17 +8,13 @@ import { useBoolean, useDebounceFn } from 'ahooks'
 import { useQuery } from '@tanstack/react-query'
 
 // Components
-import ExternalAPIPanel from '../../components/datasets/external-api/external-api-panel'
 import Datasets from './Datasets'
-import DatasetFooter from './DatasetFooter'
 import ApiServer from './ApiServer'
 import Doc from './Doc'
 import TabSliderNew from '@/app/components/base/tab-slider-new'
 import TagManagementModal from '@/app/components/base/tag-management'
 import TagFilter from '@/app/components/base/tag-management/filter'
-import Button from '@/app/components/base/button'
 import Input from '@/app/components/base/input'
-import { ApiConnectionMod } from '@/app/components/base/icons/src/vender/solid/development'
 import CheckboxWithLabel from '@/app/components/datasets/create/website/base/checkbox-with-label'
 
 // Services
@@ -109,13 +105,6 @@ const Container = () => {
               onClear={() => handleKeywordsChange('')}
             />
             <div className="h-4 w-[1px] bg-divider-regular" />
-            <Button
-              className='shadows-shadow-xs gap-0.5'
-              onClick={() => setShowExternalApiPanel(true)}
-            >
-              <ApiConnectionMod className='h-4 w-4 text-components-button-secondary-text' />
-              <div className='system-sm-medium flex items-center justify-center gap-1 px-0.5 text-components-button-secondary-text'>{t('dataset.externalAPIPanelTitle')}</div>
-            </Button>
           </div>
         )}
         {activeTab === 'api' && data && <ApiServer apiBaseUrl={data.api_base_url || ''} />}
@@ -123,7 +112,6 @@ const Container = () => {
       {activeTab === 'dataset' && (
         <>
           <Datasets containerRef={containerRef} tags={tagIDs} keywords={searchKeywords} includeAll={includeAll} />
-          <DatasetFooter />
           {showTagManagementModal && (
             <TagManagementModal type='knowledge' show={showTagManagementModal} />
           )}
@@ -131,7 +119,6 @@ const Container = () => {
       )}
       {activeTab === 'api' && data && <Doc apiBaseUrl={data.api_base_url || ''} />}
 
-      {showExternalApiPanel && <ExternalAPIPanel onClose={() => setShowExternalApiPanel(false)} />}
     </div>
   )
 }

@@ -1,7 +1,6 @@
 'use client'
 import React, { useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
-import Link from 'next/link'
 import useSWR from 'swr'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Input from '../components/base/input'
@@ -111,13 +110,13 @@ const OneMoreStep = () => {
               />
             </div>
           </div>
-          <div className='mb-5'>
+          <div className='mb-5 hidden'>
             <label htmlFor="name" className="system-md-semibold my-2 text-text-secondary">
               {t('login.interfaceLanguage')}
             </label>
             <div className="mt-1">
               <SimpleSelect
-                defaultValue={LanguagesSupported[0]}
+                defaultValue={LanguagesSupported[1]}
                 items={languages.filter(item => item.supported)}
                 onSelect={(item) => {
                   dispatch({ type: 'interface_language', value: item.value })
@@ -125,7 +124,7 @@ const OneMoreStep = () => {
               />
             </div>
           </div>
-          <div className='mb-4'>
+          <div className='mb-4 hidden'>
             <label htmlFor="timezone" className="system-md-semibold text-text-tertiary">
               {t('login.timezone')}
             </label>
@@ -150,15 +149,6 @@ const OneMoreStep = () => {
             >
               {t('login.go')}
             </Button>
-          </div>
-          <div className="system-xs-regular mt-2 block w-full text-text-tertiary">
-            {t('login.license.tip')}
-            &nbsp;
-            <Link
-              className='system-xs-medium text-text-accent-secondary'
-              target='_blank' rel='noopener noreferrer'
-              href={'https://docs.dify.ai/user-agreement/open-source'}
-            >{t('login.license.link')}</Link>
           </div>
         </div>
       </div>

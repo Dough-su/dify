@@ -248,10 +248,6 @@ const AppCard = ({ app, onRefresh }: AppCardProps) => {
           </>
         )}
         <Divider className="!my-1" />
-        <button className='mx-1 flex h-8 w-[calc(100%_-_8px)] cursor-pointer items-center gap-2 rounded-lg px-3 py-[6px] hover:bg-state-base-hover' onClick={onClickInstalledApp}>
-          <span className='system-sm-regular text-text-secondary'>{t('app.openInExplore')}</span>
-        </button>
-        <Divider className="!my-1" />
         <div
           className='group mx-1 flex h-8 w-[calc(100%_-_8px)] cursor-pointer items-center gap-2 rounded-lg px-3 py-[6px] hover:bg-state-destructive-hover'
           onClick={onClickDelete}

@@ -6,18 +6,14 @@ import { useBoolean } from 'ahooks'
 import Field from './field'
 import type { LangFuseConfig, LangSmithConfig, OpikConfig } from './type'
 import { TracingProvider } from './type'
-import { docURL } from './config'
 import {
   PortalToFollowElem,
   PortalToFollowElemContent,
 } from '@/app/components/base/portal-to-follow-elem'
 import { Lock01 } from '@/app/components/base/icons/src/vender/solid/security'
-import Button from '@/app/components/base/button'
-import { LinkExternal02 } from '@/app/components/base/icons/src/vender/line/general'
 import Confirm from '@/app/components/base/confirm'
 import { addTracingConfig, removeTracingConfig, updateTracingConfig } from '@/service/apps'
 import Toast from '@/app/components/base/toast'
-import Divider from '@/app/components/base/divider'
 
 type Props = {
   appId: string
@@ -263,44 +259,6 @@ const ProviderConfigModal: FC<Props> = ({
                           />
                         </>
                       )}
-
-                    </div>
-                    <div className='my-8 flex h-8 items-center justify-between'>
-                      <a
-                        className='flex items-center space-x-1 text-xs font-normal leading-[18px] text-[#155EEF]'
-                        target='_blank'
-                        href={docURL[type]}
-                      >
-                        <span>{t(`${I18N_PREFIX}.viewDocsLink`, { key: t(`app.tracing.${type}.title`) })}</span>
-                        <LinkExternal02 className='h-3 w-3' />
-                      </a>
-                      <div className='flex items-center'>
-                        {isEdit && (
-                          <>
-                            <Button
-                              className='h-9 text-sm font-medium text-text-secondary'
-                              onClick={showRemoveConfirm}
-                            >
-                              <span className='text-[#D92D20]'>{t('common.operation.remove')}</span>
-                            </Button>
-                            <Divider className='mx-3 h-[18px]' />
-                          </>
-                        )}
-                        <Button
-                          className='mr-2 h-9 text-sm font-medium text-text-secondary'
-                          onClick={onCancel}
-                        >
-                          {t('common.operation.cancel')}
-                        </Button>
-                        <Button
-                          className='h-9 text-sm font-medium'
-                          variant='primary'
-                          onClick={handleSave}
-                          loading={isSaving}
-                        >
-                          {t(`common.operation.${isAdd ? 'saveAndEnable' : 'save'}`)}
-                        </Button>
-                      </div>
 
                     </div>
                   </div>

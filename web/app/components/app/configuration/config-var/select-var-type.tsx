@@ -9,7 +9,6 @@ import {
   PortalToFollowElemContent,
   PortalToFollowElemTrigger,
 } from '@/app/components/base/portal-to-follow-elem'
-import { ApiConnection } from '@/app/components/base/icons/src/vender/solid/development'
 import InputVarTypeIcon from '@/app/components/workflow/nodes/_base/components/input-var-type-icon'
 import { InputVarType } from '@/app/components/workflow/types'
 
@@ -68,9 +67,6 @@ const SelectVarType: FC<Props> = ({
             <SelectItem type={InputVarType.number} value='number' text={t('appDebug.variableConfig.number')} onClick={handleChange}></SelectItem>
           </div>
           <div className='h-[1px] bg-gray-100'></div>
-          <div className='p-1'>
-            <SelectItem Icon={ApiConnection} value='api' text={t('appDebug.variableConfig.apiBasedVar')} onClick={handleChange}></SelectItem>
-          </div>
         </div>
       </PortalToFollowElemContent>
     </PortalToFollowElem>

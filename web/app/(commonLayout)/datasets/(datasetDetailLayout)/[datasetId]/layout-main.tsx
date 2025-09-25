@@ -15,7 +15,7 @@ import {
   // CommandLineIcon as CommandLineSolidIcon,
   DocumentTextIcon as DocumentTextSolidIcon,
 } from '@heroicons/react/24/solid'
-import { RiApps2AddLine, RiBookOpenLine, RiInformation2Line } from '@remixicon/react'
+import { RiApps2AddLine, RiInformation2Line } from '@remixicon/react'
 import s from './style.module.css'
 import classNames from '@/utils/classnames'
 import { fetchDatasetDetail, fetchDatasetRelatedApps } from '@/service/datasets'
@@ -25,7 +25,6 @@ import Loading from '@/app/components/base/loading'
 import DatasetDetailContext from '@/context/dataset-detail'
 import { DataSourceType } from '@/models/datasets'
 import useBreakpoints, { MediaType } from '@/hooks/use-breakpoints'
-import { LanguagesSupported } from '@/i18n/language'
 import { useStore } from '@/app/components/app/store'
 import { getLocaleOnClient } from '@/i18n'
 import { useAppContext } from '@/context/app-context'
@@ -115,25 +114,10 @@ const ExtraInfo = ({ isMobile, relatedApps, expand }: IExtraInfoProps) => {
               <RiApps2AddLine className='h-4 w-4 text-text-tertiary' />
             </div>
             <div className='my-2 text-xs text-text-tertiary'>{t('common.datasetMenus.emptyTip')}</div>
-            <a
-              className='mt-2 inline-flex cursor-pointer items-center text-xs text-text-accent'
-              href={
-                locale === LanguagesSupported[1]
-                  ? 'https://docs.dify.ai/v/zh-hans/guides/knowledge-base/integrate-knowledge-within-application'
-                  : 'https://docs.dify.ai/guides/knowledge-base/integrate-knowledge-within-application'
-              }
-              target='_blank' rel='noopener noreferrer'
-            >
-              <RiBookOpenLine className='mr-1 text-text-accent' />
-              {t('common.datasetMenus.viewDoc')}
-            </a>
           </div>
         }
       >
-        <div className='system-xs-medium-uppercase inline-flex cursor-pointer items-center space-x-1 text-text-secondary'>
-          <span>{t('common.datasetMenus.noRelatedApp')}</span>
-          <RiInformation2Line className='h-4 w-4' />
-        </div>
+
       </Tooltip>
     )}
   </div>
@@ -182,7 +166,7 @@ const DatasetDetailLayout: FC<IAppDetailLayoutProps> = (props) => {
 
   useEffect(() => {
     if (datasetRes)
-      document.title = `${datasetRes.name || 'Dataset'} - Dify`
+      document.title = `${datasetRes.name || 'Dataset'} - 氯碱事业部`
   }, [datasetRes])
 
   const setAppSiderbarExpand = useStore(state => state.setAppSiderbarExpand)

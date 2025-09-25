@@ -6,7 +6,6 @@ import { useContext } from 'use-context-selector'
 import DeleteAccount from '../delete-account'
 import s from './index.module.css'
 import AvatarWithEdit from './AvatarWithEdit'
-import Collapse from '@/app/components/header/account-setting/collapse'
 import type { IItem } from '@/app/components/header/account-setting/collapse'
 import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
@@ -14,7 +13,6 @@ import { updateUserProfile } from '@/service/common'
 import { useAppContext } from '@/context/app-context'
 import { ToastContext } from '@/app/components/base/toast'
 import AppIcon from '@/app/components/base/app-icon'
-import { IS_CE_EDITION } from '@/config'
 import Input from '@/app/components/base/input'
 
 const titleClassName = `
@@ -170,19 +168,7 @@ export default function AccountPage() {
         )
       }
       <div className='mb-6 border-[1px] border-divider-subtle' />
-      <div className='mb-8'>
-        <div className={titleClassName}>{t('common.account.langGeniusAccount')}</div>
-        <div className={descriptionClassName}>{t('common.account.langGeniusAccountTip')}</div>
-        {!!apps.length && (
-          <Collapse
-            title={`${t('common.account.showAppLength', { length: apps.length })}`}
-            items={apps.map(app => ({ key: app.id, name: app.name }))}
-            renderItem={renderAppItem}
-            wrapperClassName='mt-2'
-          />
-        )}
-        {!IS_CE_EDITION && <Button className='mt-2 text-components-button-destructive-secondary-text' onClick={() => setShowDeleteAccountModal(true)}>{t('common.account.delete')}</Button>}
-      </div>
+
       {
         editNameModalVisible && (
           <Modal

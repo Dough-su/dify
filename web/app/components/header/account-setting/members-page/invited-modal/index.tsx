@@ -41,12 +41,8 @@ const InvitedModal = ({
           <XMarkIcon className='h-4 w-4 cursor-pointer' onClick={onCancel} />
         </div>
         <div className='mb-1 text-xl font-semibold text-text-primary'>{t('common.members.invitationSent')}</div>
-        {!IS_CE_EDITION && (
-          <div className='mb-10 text-sm text-text-tertiary'>{t('common.members.invitationSentTip')}</div>
-        )}
         {IS_CE_EDITION && (
           <>
-            <div className='mb-5 text-sm text-text-tertiary'>{t('common.members.invitationSentTip')}</div>
             <div className='mb-9 flex flex-col gap-2'>
               {
                 !!successInvitationResults.length

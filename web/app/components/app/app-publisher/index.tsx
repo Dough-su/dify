@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next'
 import dayjs from 'dayjs'
 import {
   RiArrowDownSLine,
-  RiPlanetLine,
   RiPlayCircleLine,
-  RiPlayList2Line,
   RiTerminalBoxLine,
 } from '@remixicon/react'
 import { useKeyPress } from 'ahooks'
@@ -28,7 +26,6 @@ import { fetchInstalledAppList } from '@/service/explore'
 import EmbeddedModal from '@/app/components/app/overview/embedded'
 import { useStore as useAppStore } from '@/app/components/app/store'
 import { useGetLanguage } from '@/context/i18n'
-import { CodeBrowser } from '@/app/components/base/icons/src/vender/line/development'
 import WorkflowToolConfigureButton from '@/app/components/tools/workflow-tool/configure-button'
 import type { InputVar } from '@/app/components/workflow/types'
 import { appDefaultIconBackground } from '@/config'
@@ -229,37 +226,6 @@ const AppPublisher = ({
                 icon={<RiPlayCircleLine className='h-4 w-4' />}
               >
                 {t('workflow.common.runApp')}
-              </SuggestedAction>
-              {appDetail?.mode === 'workflow'
-                ? (
-                  <SuggestedAction
-                    disabled={!publishedAt}
-                    link={`${appURL}${appURL.includes('?') ? '&' : '?'}mode=batch`}
-                    icon={<RiPlayList2Line className='h-4 w-4' />}
-                  >
-                    {t('workflow.common.batchRunApp')}
-                  </SuggestedAction>
-                )
-                : (
-                  <SuggestedAction
-                    onClick={() => {
-                      setEmbeddingModalOpen(true)
-                      handleTrigger()
-                    }}
-                    disabled={!publishedAt}
-                    icon={<CodeBrowser className='h-4 w-4' />}
-                  >
-                    {t('workflow.common.embedIntoSite')}
-                  </SuggestedAction>
-                )}
-              <SuggestedAction
-                onClick={() => {
-                  publishedAt && handleOpenInExplore()
-                }}
-                disabled={!publishedAt}
-                icon={<RiPlanetLine className='h-4 w-4' />}
-              >
-                {t('workflow.common.openInExplore')}
               </SuggestedAction>
               <SuggestedAction
                 disabled={!publishedAt}

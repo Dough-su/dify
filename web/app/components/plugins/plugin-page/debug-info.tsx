@@ -2,7 +2,6 @@
 import type { FC } from 'react'
 import React from 'react'
 import {
-  RiArrowRightUpLine,
   RiBugLine,
 } from '@remixicon/react'
 import { useTranslation } from 'react-i18next'
@@ -30,10 +29,6 @@ const DebugInfo: FC = () => {
         <>
           <div className='flex items-center gap-1 self-stretch'>
             <span className='system-sm-semibold flex shrink-0 grow basis-0 flex-col items-start justify-center text-text-secondary'>{t(`${i18nPrefix}.title`)}</span>
-            <a href='https://docs.dify.ai/plugins/quick-start/develop-plugins/debug-plugin' target='_blank' className='flex cursor-pointer items-center gap-0.5 text-text-accent-light-mode-only'>
-              <span className='system-xs-medium'>{t(`${i18nPrefix}.viewDocs`)}</span>
-              <RiArrowRightUpLine className='h-3 w-3' />
-            </a>
           </div>
           <div className='space-y-0.5'>
             <KeyValueItem

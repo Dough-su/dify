@@ -7,19 +7,13 @@ import {
   RiCloseLine,
   RiColorFilterFill,
   RiColorFilterLine,
-  RiDatabase2Fill,
-  RiDatabase2Line,
   RiGroup2Fill,
   RiGroup2Line,
   RiMoneyDollarCircleFill,
   RiMoneyDollarCircleLine,
-  RiPuzzle2Fill,
-  RiPuzzle2Line,
-  RiTranslate2,
 } from '@remixicon/react'
 import Button from '../../base/button'
 import MembersPage from './members-page'
-import LanguagePage from './language-page'
 import ApiBasedExtensionPage from './api-based-extension-page'
 import DataSourcePage from './data-source-page'
 import ModelProviderPage from './model-provider-page'
@@ -83,18 +77,6 @@ export default function AccountSetting({
         activeIcon: <RiMoneyDollarCircleFill className={iconClassName} />,
       },
       {
-        key: 'data-source',
-        name: t('common.settings.dataSource'),
-        icon: <RiDatabase2Line className={iconClassName} />,
-        activeIcon: <RiDatabase2Fill className={iconClassName} />,
-      },
-      {
-        key: 'api-based-extension',
-        name: t('common.settings.apiBasedExtension'),
-        icon: <RiPuzzle2Line className={iconClassName} />,
-        activeIcon: <RiPuzzle2Fill className={iconClassName} />,
-      },
-      {
         key: (enableReplaceWebAppLogo || enableBilling) ? 'custom' : false,
         name: t('custom.custom'),
         icon: <RiColorFilterLine className={iconClassName} />,
@@ -112,18 +94,6 @@ export default function AccountSetting({
       name: t('common.settings.workplaceGroup'),
       items: workplaceGroupItems,
     },
-    {
-      key: 'account-group',
-      name: t('common.settings.generalGroup'),
-      items: [
-        {
-          key: 'language',
-          name: t('common.settings.language'),
-          icon: <RiTranslate2 className={iconClassName} />,
-          activeIcon: <RiTranslate2 className={iconClassName} />,
-        },
-      ],
-    },
   ]
   const scrollRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(false)
@@ -139,7 +109,7 @@ export default function AccountSetting({
     }
   }, [])
 
-  const activeItem = [...menuItems[0].items, ...menuItems[1].items].find(item => item.key === activeMenu)
+  const activeItem = [...menuItems[0].items].find(item => item.key === activeMenu)
 
   const [searchValue, setSearchValue] = useState<string>('')
 
@@ -219,7 +189,6 @@ export default function AccountSetting({
               {activeMenu === 'data-source' && <DataSourcePage />}
               {activeMenu === 'api-based-extension' && <ApiBasedExtensionPage />}
               {activeMenu === 'custom' && <CustomPage />}
-              {activeMenu === 'language' && <LanguagePage />}
             </div>
           </div>
         </div>

@@ -5,7 +5,6 @@ import { useContext } from 'use-context-selector'
 import { useTranslation } from 'react-i18next'
 import { flatten, uniq } from 'lodash-es'
 import ResultPanel from './result'
-import TracingPanel from './tracing'
 import cn from '@/utils/classnames'
 import { ToastContext } from '@/app/components/base/toast'
 import Loading from '@/app/components/base/loading'
@@ -119,11 +118,7 @@ const AgentLogDetail: FC<AgentLogDetailProps> = ({
             iterations={runDetail.iterations.length}
           />
         )}
-        {!loading && currentTab === 'TRACING' && (
-          <TracingPanel
-            list={list}
-          />
-        )}
+
       </div>
     </div>
   )

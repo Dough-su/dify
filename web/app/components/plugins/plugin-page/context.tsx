@@ -65,11 +65,6 @@ export const PluginPageContextProvider = ({
   const options = useMemo(() => {
     return [
       { value: 'plugins', text: t('common.menus.plugins') },
-      ...(
-        enable_marketplace
-          ? [{ value: 'discover', text: t('common.menus.exploreMarketplace') }]
-          : []
-      ),
     ]
   }, [t, enable_marketplace])
   const [activeTab, setActiveTab] = useTabSearchParams({

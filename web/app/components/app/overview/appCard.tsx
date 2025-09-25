@@ -6,8 +6,6 @@ import {
   RiBookOpenLine,
   RiEqualizer2Line,
   RiExternalLinkLine,
-  RiPaintBrushLine,
-  RiWindowLine,
 } from '@remixicon/react'
 import SettingsModal from './settings'
 import EmbeddedModal from './embedded'
@@ -69,11 +67,6 @@ function AppCard({
       api: [{ opName: t('appOverview.overview.apiInfo.doc'), opIcon: RiBookOpenLine }],
       app: [],
     }
-    if (appInfo.mode !== 'completion' && appInfo.mode !== 'workflow')
-      operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.embedded.entry'), opIcon: RiWindowLine })
-
-    operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.customize.entry'), opIcon: RiPaintBrushLine })
-
     if (isCurrentWorkspaceEditor)
       operationsMap.webapp.push({ opName: t('appOverview.overview.appInfo.settings.entry'), opIcon: RiEqualizer2Line })
 

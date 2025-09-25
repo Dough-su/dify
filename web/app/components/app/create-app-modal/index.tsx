@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next'
 
 import { useRouter } from 'next/navigation'
 import { useContext, useContextSelector } from 'use-context-selector'
-import { RiArrowRightLine, RiCommandLine, RiCornerDownLeftLine, RiExchange2Fill } from '@remixicon/react'
-import Link from 'next/link'
+import { RiCommandLine, RiCornerDownLeftLine, RiExchange2Fill } from '@remixicon/react'
 import { useDebounceFn, useKeyPress } from 'ahooks'
 import Image from 'next/image'
 import AppIconPicker from '../../base/app-icon-picker'
@@ -215,12 +214,7 @@ function CreateApp({ onClose, onSuccess, onCreateFromTemplate }: CreateAppProps)
             </div>
           </div>
           <div className='flex items-center justify-between pb-10 pt-5'>
-            <div className='system-xs-regular flex cursor-pointer items-center gap-1 text-text-tertiary' onClick={onCreateFromTemplate}>
-              <span>{t('app.newApp.noIdeaTip')}</span>
-              <div className='p-[1px]'>
-                <RiArrowRightLine className='h-3.5 w-3.5' />
-              </div>
-            </div>
+
             <div className='flex gap-2'>
               <Button onClick={onClose}>{t('app.newApp.Cancel')}</Button>
               <Button disabled={isAppsFull || !name} className='gap-1' variant="primary" onClick={handleCreateApp}>
@@ -341,7 +335,6 @@ function AppPreview({ mode }: { mode: AppMode }) {
     <h4 className='system-sm-semibold-uppercase text-text-secondary'>{previewInfo.title}</h4>
     <div className='system-xs-regular mt-1 min-h-8 max-w-96 text-text-tertiary'>
       <span>{previewInfo.description}</span>
-      {previewInfo.link && <Link target='_blank' href={previewInfo.link} className='ml-1 text-text-accent'>{t('app.newApp.learnMore')}</Link>}
     </div>
   </div>
 }

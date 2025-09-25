@@ -36,7 +36,6 @@ import Toast from '@/app/components/base/toast'
 import type { VisionFile, VisionSettings } from '@/types/app'
 import { Resolution, TransferMethod } from '@/types/app'
 import { useAppFavicon } from '@/hooks/use-app-favicon'
-import LogoSite from '@/app/components/base/logo/logo-site'
 import cn from '@/utils/classnames'
 
 const GROUP_SIZE = 5 // to avoid RPM(Request per minute) limit. The group task finished then the next group.
@@ -420,7 +419,7 @@ const TextGeneration: FC<IMainProps> = ({
       if (canReplaceLogo)
         document.title = `${siteInfo.title}`
       else
-        document.title = `${siteInfo.title} - Powered by Dify`
+        document.title = `${siteInfo.title} - Powered by 氯碱事业部`
     }
   }, [siteInfo?.title, canReplaceLogo])
 
@@ -624,12 +623,6 @@ const TextGeneration: FC<IMainProps> = ({
             !isPC && resultExisted && 'rounded-b-2xl border-b-[0.5px] border-divider-regular',
           )}>
             <div className='system-2xs-medium-uppercase text-text-tertiary'>{t('share.chat.poweredBy')}</div>
-            {customConfig?.replace_webapp_logo && (
-              <img src={customConfig?.replace_webapp_logo} alt='logo' className='block h-5 w-auto' />
-            )}
-            {!customConfig?.replace_webapp_logo && (
-              <LogoSite className='!h-5' />
-            )}
           </div>
         )}
       </div>

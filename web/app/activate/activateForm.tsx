@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import useSWR from 'swr'
 import { useRouter, useSearchParams } from 'next/navigation'
 import cn from '@/utils/classnames'
-import Button from '@/app/components/base/button'
 
 import { invitationCheck } from '@/service/common'
 import Loading from '@/app/components/base/loading'
@@ -52,11 +51,6 @@ const ActivateForm = () => {
           <div className="mx-auto w-full">
             <div className="mb-3 flex h-20 w-20 items-center justify-center rounded-[20px] border border-gray-100 p-5 text-[40px] font-bold shadow-lg">🤷‍♂️</div>
             <h2 className="text-[32px] font-bold text-gray-900">{t('login.invalid')}</h2>
-          </div>
-          <div className="mx-auto mt-6 w-full">
-            <Button variant='primary' className='w-full !text-sm'>
-              <a href="https://dify.ai">{t('login.explore')}</a>
-            </Button>
           </div>
         </div>
       )}

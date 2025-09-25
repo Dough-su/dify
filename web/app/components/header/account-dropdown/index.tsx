@@ -3,23 +3,15 @@ import { useTranslation } from 'react-i18next'
 import { Fragment, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useContext, useContextSelector } from 'use-context-selector'
-import { RiAccountCircleLine, RiArrowDownSLine, RiArrowRightUpLine, RiBookOpenLine, RiGithubLine, RiInformation2Line, RiLogoutBoxRLine, RiMap2Line, RiSettings3Line, RiStarLine } from '@remixicon/react'
+import { RiAccountCircleLine, RiArrowDownSLine, RiArrowRightUpLine, RiLogoutBoxRLine, RiSettings3Line } from '@remixicon/react'
 import Link from 'next/link'
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
-import Indicator from '../indicator'
-import AccountAbout from '../account-about'
-import GithubStar from '../github-star'
-import Support from './support'
-import Compliance from './compliance'
 import classNames from '@/utils/classnames'
 import I18n from '@/context/i18n'
 import Avatar from '@/app/components/base/avatar'
 import { logout } from '@/service/common'
 import AppContext, { useAppContext } from '@/context/app-context'
 import { useModalContext } from '@/context/modal-context'
-import { LanguagesSupported } from '@/i18n/language'
-import { LicenseStatus } from '@/types/feature'
-import { IS_CLOUD_EDITION } from '@/config'
 
 export type IAppSelector = {
   isMobile: boolean
@@ -120,69 +112,6 @@ export default function AppSelector({ isMobile }: IAppSelector) {
                       </div>
                     </MenuItem>
                   </div>
-                  <div className='p-1'>
-                    <MenuItem>
-                      <Link
-                        className={classNames(itemClassName, 'group justify-between',
-                          'data-[active]:bg-state-base-hover',
-                        )}
-                        href={
-                          locale !== LanguagesSupported[1] ? 'https://docs.dify.ai/' : `https://docs.dify.ai/v/${locale.toLowerCase()}/`
-                        }
-                        target='_blank' rel='noopener noreferrer'>
-                        <RiBookOpenLine className='size-4 shrink-0 text-text-tertiary' />
-                        <div className='system-md-regular grow px-1 text-text-secondary'>{t('common.userProfile.helpCenter')}</div>
-                        <RiArrowRightUpLine className='size-[14px] shrink-0 text-text-tertiary' />
-                      </Link>
-                    </MenuItem>
-                    <Support />
-                    {IS_CLOUD_EDITION && isCurrentWorkspaceOwner && <Compliance />}
-                  </div>
-                  <div className='p-1'>
-                    <MenuItem>
-                      <Link
-                        className={classNames(itemClassName, 'group justify-between',
-                          'data-[active]:bg-state-base-hover',
-                        )}
-                        href='https://roadmap.dify.ai'
-                        target='_blank' rel='noopener noreferrer'>
-                        <RiMap2Line className='size-4 shrink-0 text-text-tertiary' />
-                        <div className='system-md-regular grow px-1 text-text-secondary'>{t('common.userProfile.roadmap')}</div>
-                        <RiArrowRightUpLine className='size-[14px] shrink-0 text-text-tertiary' />
-                      </Link>
-                    </MenuItem>
-                    {systemFeatures.license.status === LicenseStatus.NONE && <MenuItem>
-                      <Link
-                        className={classNames(itemClassName, 'group justify-between',
-                          'data-[active]:bg-state-base-hover',
-                        )}
-                        href='https://github.com/langgenius/dify'
-                        target='_blank' rel='noopener noreferrer'>
-                        <RiGithubLine className='size-4 shrink-0 text-text-tertiary' />
-                        <div className='system-md-regular grow px-1 text-text-secondary'>{t('common.userProfile.github')}</div>
-                        <div className='flex items-center gap-0.5 rounded-[5px] border border-divider-deep bg-components-badge-bg-dimm px-[5px] py-[3px]'>
-                          <RiStarLine className='size-3 shrink-0 text-text-tertiary' />
-                          <GithubStar className='system-2xs-medium-uppercase text-text-tertiary' />
-                        </div>
-                      </Link>
-                    </MenuItem>}
-                    {
-                      document?.body?.getAttribute('data-public-site-about') !== 'hide' && (
-                        <MenuItem>
-                          <div className={classNames(itemClassName, 'justify-between',
-                            'data-[active]:bg-state-base-hover',
-                          )} onClick={() => setAboutVisible(true)}>
-                            <RiInformation2Line className='size-4 shrink-0 text-text-tertiary' />
-                            <div className='system-md-regular grow px-1 text-text-secondary'>{t('common.userProfile.about')}</div>
-                            <div className='flex shrink-0 items-center'>
-                              <div className='system-xs-regular mr-2 text-text-tertiary'>{langeniusVersionInfo.current_version}</div>
-                              <Indicator color={langeniusVersionInfo.current_version === langeniusVersionInfo.latest_version ? 'green' : 'orange'} />
-                            </div>
-                          </div>
-                        </MenuItem>
-                      )
-                    }
-                  </div>
                   <MenuItem>
                     <div className='p-1' onClick={() => handleLogout()}>
                       <div
@@ -201,9 +130,6 @@ export default function AppSelector({ isMobile }: IAppSelector) {
           )
         }
       </Menu>
-      {
-        aboutVisible && <AccountAbout onCancel={() => setAboutVisible(false)} langeniusVersionInfo={langeniusVersionInfo} />
-      }
     </div >
   )
 }

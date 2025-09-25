@@ -155,7 +155,7 @@ const HitTestingPage: FC<Props> = ({ datasetId }: Props) => {
                           <td className='w-[128px] pl-3'>
                             <div className='flex items-center'>
                               <SourceIcon className='mr-1 size-4 text-text-tertiary' />
-                              <span className='capitalize'>{record.source.replace('_', ' ').replace('hit testing', 'retrieval test')}</span>
+                              <span className='capitalize'>{record.source.replace('_', ' ').replace('hit testing', '检索测试')}</span>
                             </div>
                           </td>
                           <td className='max-w-xs py-2'>{record.content}</td>

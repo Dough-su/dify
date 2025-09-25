@@ -10,7 +10,7 @@ import CreateAppTemplateDialog from '@/app/components/app/create-app-dialog'
 import CreateAppModal from '@/app/components/app/create-app-modal'
 import CreateFromDSLModal, { CreateFromDSLModalTab } from '@/app/components/app/create-from-dsl-modal'
 import { useProviderContext } from '@/context/provider-context'
-import { FileArrow01, FilePlus01, FilePlus02 } from '@/app/components/base/icons/src/vender/line/files'
+import { FileArrow01, FilePlus01 } from '@/app/components/base/icons/src/vender/line/files'
 import cn from '@/utils/classnames'
 
 export type CreateAppCardProps = {
@@ -54,10 +54,6 @@ const CreateAppCard = (
         <button className='mb-1 flex w-full cursor-pointer items-center rounded-lg px-6 py-[7px] text-[13px] font-medium leading-[18px] text-text-tertiary hover:bg-state-base-hover hover:text-text-secondary' onClick={() => setShowNewAppModal(true)}>
           <FilePlus01 className='mr-2 h-4 w-4 shrink-0' />
           {t('app.newApp.startFromBlank')}
-        </button>
-        <button className='flex w-full cursor-pointer items-center rounded-lg px-6 py-[7px] text-[13px] font-medium leading-[18px] text-text-tertiary hover:bg-state-base-hover hover:text-text-secondary' onClick={() => setShowNewAppTemplateDialog(true)}>
-          <FilePlus02 className='mr-2 h-4 w-4 shrink-0' />
-          {t('app.newApp.startFromTemplate')}
         </button>
         <button
           onClick={() => setShowCreateFromDSLModal(true)}

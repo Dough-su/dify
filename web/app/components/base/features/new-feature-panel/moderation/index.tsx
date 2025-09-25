@@ -142,9 +142,6 @@ const Moderation = ({
       disabled={disabled}
     >
       <>
-        {!moderation?.enabled && (
-          <div className='system-xs-regular line-clamp-2 min-h-8 text-text-tertiary'>{t('appDebug.feature.moderation.description')}</div>
-        )}
         {!!moderation?.enabled && (
           <>
             {!isHovering && (

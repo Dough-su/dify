@@ -188,7 +188,7 @@ const translation = {
   account: {
     account: '账户',
     myAccount: '我的账户',
-    studio: 'Dify 工作室',
+    studio: '返回工作室',
     avatar: '头像',
     name: '用户名',
     email: '邮箱',

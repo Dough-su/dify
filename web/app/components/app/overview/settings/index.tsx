@@ -1,9 +1,8 @@
 'use client'
 import type { FC } from 'react'
 import React, { useCallback, useEffect, useState } from 'react'
-import { RiArrowRightSLine, RiCloseLine } from '@remixicon/react'
-import Link from 'next/link'
-import { Trans, useTranslation } from 'react-i18next'
+import { RiCloseLine } from '@remixicon/react'
+import { useTranslation } from 'react-i18next'
 import { useContext, useContextSelector } from 'use-context-selector'
 import { SparklesSoft } from '@/app/components/base/icons/src/public/common'
 import Modal from '@/app/components/base/modal'
@@ -19,7 +18,7 @@ import { SimpleSelect } from '@/app/components/base/select'
 import type { AppDetailResponse } from '@/models/app'
 import type { AppIconType, AppSSO, Language } from '@/types/app'
 import { useToastContext } from '@/app/components/base/toast'
-import { LanguagesSupported, languages } from '@/i18n/language'
+import { languages } from '@/i18n/language'
 import Tooltip from '@/app/components/base/tooltip'
 import AppContext, { useAppContext } from '@/context/app-context'
 import { useProviderContext } from '@/context/provider-context'
@@ -228,10 +227,6 @@ const SettingsModal: FC<ISettingsModalProps> = ({
               <RiCloseLine className='h-4 w-4' />
             </ActionButton>
           </div>
-          <div className='system-xs-regular mt-0.5 text-text-tertiary'>
-            <span>{t(`${prefixSettings}.modalTip`)}</span>
-            <Link href={`${locale === LanguagesSupported[1] ? 'https://docs.dify.ai/zh-hans/guides/application-publishing/launch-your-webapp-quickly#she-zhi-ni-de-ai-zhan-dian' : 'https://docs.dify.ai/guides/application-publishing/launch-your-webapp-quickly#setting-up-your-ai-site'}`} target='_blank' rel='noopener noreferrer' className='text-text-accent'>{t('common.operation.learnMore')}</Link>
-          </div>
         </div>
         {/* form body */}
         <div className='space-y-5 px-6 py-3'>
@@ -265,22 +260,9 @@ const SettingsModal: FC<ISettingsModalProps> = ({
               onChange={e => onDesChange(e.target.value)}
               placeholder={t(`${prefixSettings}.webDescPlaceholder`) as string}
             />
-            <p className={cn('body-xs-regular pb-0.5 text-text-tertiary')}>{t(`${prefixSettings}.webDescTip`)}</p>
           </div>
           <Divider className="my-0 h-px" />
-          {/* answer icon */}
-          {isChat && (
-            <div className='w-full'>
-              <div className='flex items-center justify-between'>
-                <div className={cn('system-sm-semibold py-1 text-text-secondary')}>{t('app.answerIcon.title')}</div>
-                <Switch
-                  defaultValue={inputInfo.use_icon_as_answer_icon}
-                  onChange={v => setInputInfo({ ...inputInfo, use_icon_as_answer_icon: v })}
-                />
-              </div>
-              <p className='body-xs-regular pb-0.5 text-text-tertiary'>{t('app.answerIcon.description')}</p>
-            </div>
-          )}
+
           {/* language */}
           <div className='flex items-center'>
             <div className={cn('system-sm-semibold grow py-1 text-text-secondary')}>{t(`${prefixSettings}.language`)}</div>
@@ -349,15 +331,6 @@ const SettingsModal: FC<ISettingsModalProps> = ({
           )}
           {/* more settings switch */}
           <Divider className="my-0 h-px" />
-          {!isShowMore && (
-            <div className='flex cursor-pointer items-center' onClick={() => setIsShowMore(true)}>
-              <div className='grow'>
-                <div className={cn('system-sm-semibold py-1 text-text-secondary')}>{t(`${prefixSettings}.more.entry`)}</div>
-                <p className={cn('body-xs-regular pb-0.5 text-text-tertiary')}>{t(`${prefixSettings}.more.copyRightPlaceholder`)} & {t(`${prefixSettings}.more.privacyPolicyPlaceholder`)}</p>
-              </div>
-              <RiArrowRightSLine className='ml-1 h-4 w-4 shrink-0 text-text-secondary' />
-            </div>
-          )}
           {/* more settings */}
           {isShowMore && (
             <>
@@ -403,22 +376,6 @@ const SettingsModal: FC<ISettingsModalProps> = ({
                     placeholder={t(`${prefixSettings}.more.copyRightPlaceholder`) as string}
                   />
                 )}
-              </div>
-              {/* privacy policy */}
-              <div className='w-full'>
-                <div className={cn('system-sm-semibold py-1 text-text-secondary')}>{t(`${prefixSettings}.more.privacyPolicy`)}</div>
-                <p className={cn('body-xs-regular pb-0.5 text-text-tertiary')}>
-                  <Trans
-                    i18nKey={`${prefixSettings}.more.privacyPolicyTip`}
-                    components={{ privacyPolicyLink: <Link href={'https://docs.dify.ai/user-agreement/privacy-policy'} target='_blank' rel='noopener noreferrer' className='text-text-accent' /> }}
-                  />
-                </p>
-                <Input
-                  className='mt-1'
-                  value={inputInfo.privacyPolicy}
-                  onChange={onChange('privacyPolicy')}
-                  placeholder={t(`${prefixSettings}.more.privacyPolicyPlaceholder`) as string}
-                />
               </div>
               {/* custom disclaimer */}
               <div className='w-full'>

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { RiContractLine, RiDoorLockLine, RiErrorWarningFill } from '@remixicon/react'
 import Loading from '../components/base/loading'
@@ -12,7 +11,6 @@ import cn from '@/utils/classnames'
 import { getSystemFeatures, invitationCheck } from '@/service/common'
 import { LicenseStatus, defaultSystemFeatures } from '@/types/feature'
 import Toast from '@/app/components/base/toast'
-import { IS_CE_EDITION } from '@/config'
 
 const NormalForm = () => {
   const { t } = useTranslation()
@@ -136,7 +134,6 @@ const NormalForm = () => {
           </div>
           : <div className="mx-auto w-full">
             <h2 className="title-4xl-semi-bold text-text-primary">{t('login.pageTitle')}</h2>
-            <p className='body-md-regular mt-2 text-text-tertiary'>{t('login.welcome')}</p>
           </div>}
         <div className="bg-white">
           <div className="mt-6 flex flex-col gap-3">
@@ -184,29 +181,6 @@ const NormalForm = () => {
               </div>
             </div>
           </>}
-          <div className="system-xs-regular mt-2 block w-full text-text-tertiary">
-            {t('login.tosDesc')}
-            &nbsp;
-            <Link
-              className='system-xs-medium text-text-secondary hover:underline'
-              target='_blank' rel='noopener noreferrer'
-              href='https://dify.ai/terms'
-            >{t('login.tos')}</Link>
-            &nbsp;&&nbsp;
-            <Link
-              className='system-xs-medium text-text-secondary hover:underline'
-              target='_blank' rel='noopener noreferrer'
-              href='https://dify.ai/privacy'
-            >{t('login.pp')}</Link>
-          </div>
-          {IS_CE_EDITION && <div className="w-hull system-xs-regular mt-2 block text-text-tertiary">
-            {t('login.goToInit')}
-            &nbsp;
-            <Link
-              className='system-xs-medium text-text-secondary hover:underline'
-              href='/install'
-            >{t('login.setAdminAccount')}</Link>
-          </div>}
 
         </div>
       </div>

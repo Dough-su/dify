@@ -11,7 +11,6 @@ import Tooltip from '@/app/components/base/tooltip'
 import ActionButton from '@/app/components/base/action-button'
 import Divider from '@/app/components/base/divider'
 import ViewFormDropdown from '@/app/components/base/chat/embedded-chatbot/inputs-form/view-form-dropdown'
-import LogoSite from '@/app/components/base/logo/logo-site'
 import cn from '@/utils/classnames'
 
 export type IHeaderProps = {
@@ -45,12 +44,6 @@ const Header: FC<IHeaderProps> = ({
                 'flex shrink-0 items-center gap-1.5 px-2',
               )}>
                 <div className='system-2xs-medium-uppercase text-text-tertiary'>{t('share.chat.poweredBy')}</div>
-                {appData?.custom_config?.replace_webapp_logo && (
-                  <img src={appData?.custom_config?.replace_webapp_logo} alt='logo' className='block h-5 w-auto' />
-                )}
-                {!appData?.custom_config?.replace_webapp_logo && (
-                  <LogoSite className='!h-5' />
-                )}
               </div>
             )}
           </div>

@@ -4,7 +4,6 @@ import { useMount } from 'ahooks'
 import { useTranslation } from 'react-i18next'
 import { isEqual } from 'lodash-es'
 import { RiCloseLine } from '@remixicon/react'
-import { BookOpenIcon } from '@heroicons/react/24/outline'
 import { ApiConnectionMod } from '@/app/components/base/icons/src/vender/solid/development'
 import cn from '@/utils/classnames'
 import IndexMethodRadio from '@/app/components/datasets/settings/index-method-radio'
@@ -215,10 +214,6 @@ const SettingsModal: FC<SettingsModalProps> = ({
               className='resize-none'
               placeholder={t('datasetSettings.form.descPlaceholder') || ''}
             />
-            <a className='mt-2 flex h-[18px] items-center px-3 text-xs text-text-tertiary' href="https://docs.dify.ai/features/datasets#how-to-write-a-good-dataset-description" target='_blank' rel='noopener noreferrer'>
-              <BookOpenIcon className='mr-1 h-[18px] w-3' />
-              {t('datasetSettings.form.descWrite')}
-            </a>
           </div>
         </div>
         <div className={rowClass}>
@@ -324,10 +319,6 @@ const SettingsModal: FC<SettingsModalProps> = ({
             <div className={cn(labelClass, 'w-auto min-w-[168px]')}>
               <div>
                 <div className='system-sm-semibold text-text-secondary'>{t('datasetSettings.form.retrievalSetting.title')}</div>
-                <div className='text-xs font-normal leading-[18px] text-text-tertiary'>
-                  <a target='_blank' rel='noopener noreferrer' href='https://docs.dify.ai/guides/knowledge-base/create-knowledge-and-upload-documents#id-4-retrieval-settings' className='text-text-accent'>{t('datasetSettings.form.retrievalSetting.learnMore')}</a>
-                  {t('datasetSettings.form.retrievalSetting.description')}
-                </div>
               </div>
             </div>
             <div>

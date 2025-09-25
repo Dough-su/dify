@@ -7,7 +7,6 @@ import Link from 'next/link'
 import {
   RiBookOpenLine,
   RiDragDropLine,
-  RiEqualizer2Line,
 } from '@remixicon/react'
 import { useBoolean } from 'ahooks'
 import InstallFromLocalPackage from '../install-plugin/install-from-local-package'
@@ -22,7 +21,6 @@ import DebugInfo from './debug-info'
 import PluginTasks from './plugin-tasks'
 import Button from '@/app/components/base/button'
 import TabSlider from '@/app/components/base/tab-slider'
-import Tooltip from '@/app/components/base/tooltip'
 import cn from '@/utils/classnames'
 import PermissionSetModal from '@/app/components/plugins/permission-setting-modal/modal'
 import { useSelector as useAppContextSelector } from '@/context/app-context'
@@ -195,20 +193,6 @@ const PluginPage = ({
                 <DebugInfo />
               )
             }
-            {
-              canSetPermissions && (
-                <Tooltip
-                  popupContent={t('plugin.privilege.title')}
-                >
-                  <Button
-                    className='group h-full w-full p-2 text-components-button-secondary-text'
-                    onClick={setShowPluginSettingModal}
-                  >
-                    <RiEqualizer2Line className='h-4 w-4' />
-                  </Button>
-                </Tooltip>
-              )
-            }
           </div>
         </div>
       </div>
@@ -223,7 +207,6 @@ const PluginPage = ({
           )}
           <div className={`flex items-center justify-center gap-2 py-4 ${dragging ? 'text-text-accent' : 'text-text-quaternary'}`}>
             <RiDragDropLine className="h-4 w-4" />
-            <span className="system-xs-regular">{t('plugin.installModal.dropPluginToInstall')}</span>
           </div>
           {currentFile && (
             <InstallFromLocalPackage
